@@ -100,3 +100,45 @@ Below are code snippets of a simple view/url pairing
    ```
    - This is why we didn't need to include the challenges/ in the above url def
    
+## Dynamic Path Segments and Captured Values
+
+So, with our monthly challenges example, it's cumbersome to add a view and a url for each month
+
+Say you don't know all the urls you may have...
+
+1. challenges > ```urls.py```
+   ```py
+   from django.urls import path
+   from . import views
+
+   urlpatterns = [
+      path("<month>", views.monthly_challenge)
+   ]
+   ```
+   - month becomes our dynamic url value (it's a variable)
+   - url = ```/challenges/<month>``` where ```<month>``` will be replaced with whatever the value is
+      - ```/challenges/january```
+1. challenges > ```views.py```
+   ```py
+   from django.shortcuts import render
+   from django.http import HttpResponse, HttpResponseNotFound
+
+   # Create your views here.
+
+
+   def monthly_challenge(request, month):
+      challenge_text = None
+
+      if month == 'january':
+         challenge_text = "Eat no meat for the entire month"
+      elif month == 'february':
+         challenge_text = "Walk for at least 20 minutes every day!"
+      elif month == 'march':
+         challenge_text = "Learn Django for at least 20 minutes every day!"
+      else:
+         return HttpResponseNotFound("This month is not supported!")
+
+      return HttpResponse(challenge_text)
+   ```
+   - We use a single function and interrogate the month param
+   - If we named the url parameter differently above, we'd need to name it to match here
