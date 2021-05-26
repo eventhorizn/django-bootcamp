@@ -29,3 +29,14 @@
    - I ran into issues w/ prettier and autopep
    - Had to disable prettier and make sure autopep was the formatter for python
 1. Launch development server
+   ```
+   python manage.py runserver
+   ```
+1. In Django, modules are called **Apps**
+   ```
+   python manage.py startapp challenges
+   ```
+   ![](images/django-apps.png)
+   - Can scale up and down in terms of size
+1. [Virtual Environments](https://docs.python.org/3/tutorial/venv.html)
+   - It is recommended to use a virutal environment when developing in Django (and python in general)
