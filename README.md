@@ -40,3 +40,13 @@
    - Can scale up and down in terms of size
 1. [Virtual Environments](https://docs.python.org/3/tutorial/venv.html)
    - It is recommended to use a virutal environment when developing in Django (and python in general)
+
+## URLs and Views
+
+### URLs/Routes
+
+![](images/urls.png)
+
+### Views
+
+![](images/views.png)
