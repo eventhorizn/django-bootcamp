@@ -142,3 +142,23 @@ Say you don't know all the urls you may have...
    ```
    - We use a single function and interrogate the month param
    - If we named the url parameter differently above, we'd need to name it to match here
+
+### Path Converters
+
+[Official Documentation](https://docs.djangoproject.com/en/3.1/topics/http/urls/#path-converters)
+
+```py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("<int:month>", views.monthly_challenge_by_number),
+    path("<str:month>", views.monthly_challenge)
+]
+```
+```py
+def monthly_challenge_by_number(request, month):
+    return HttpResponse(month)
+```
+
+Allows you to specify the type of path variable
