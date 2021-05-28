@@ -162,3 +162,21 @@ def monthly_challenge_by_number(request, month):
 ```
 
 Allows you to specify the type of path variable
+
+## Redirects
+
+```py
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+```
+```py
+def monthly_challenge_by_number(request, month):
+    months = list(monthly_challenges.keys())
+
+    if month > len(months):
+        return HttpResponseNotFound("Invalid month")
+
+    redirect_month = months[month - 1]
+
+    return HttpResponseRedirect("/challenges/" + redirect_month)
+```
