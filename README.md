@@ -180,3 +180,28 @@ def monthly_challenge_by_number(request, month):
 
     return HttpResponseRedirect("/challenges/" + redirect_month)
 ```
+
+## Reverse Function & Named URLs
+
+The idea is that we name a url instead of hardcoding
+
+```py
+urlpatterns = [
+    path("<int:month>", views.monthly_challenge_by_number),
+    path("<str:month>", views.monthly_challenge, name="month-challenge")
+]
+```
+```py
+from django.urls import reverse
+
+def monthly_challenge_by_number(request, month):
+    months = list(monthly_challenges.keys())
+
+    if month > len(months):
+        return HttpResponseNotFound("Invalid month")
+
+    redirect_month = months[month - 1]
+    redirect_url = reverse("month-challenge", args=[redirect_month])
+
+    return HttpResponseRedirect(redirect_url)
+```
