@@ -41,21 +41,21 @@
 1. [Virtual Environments](https://docs.python.org/3/tutorial/venv.html)
    - It is recommended to use a virutal environment when developing in Django (and python in general)
 
-## URLs and Views
+# URLs and Views
 
-### URLs/Routes
+## URLs/Routes
 
 ![](images/urls.png)
 
-### Views
+## Views
 
 ![](images/views.png)
 
-### Request Response Flow
+## Request Response Flow
 
 ![](images/req-res-flow.png)
 
-### Simple View and URL
+## Simple View and URL
 
 How do views and urls (and apps) all work together?
 
@@ -205,3 +205,5 @@ def monthly_challenge_by_number(request, month):
 
     return HttpResponseRedirect(redirect_url)
 ```
+
+# Templates & Static Files
