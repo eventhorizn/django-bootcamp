@@ -207,3 +207,29 @@ def monthly_challenge_by_number(request, month):
 ```
 
 # Templates & Static Files
+
+1. Create a folder for your templates inside an app
+   - challenges > templates > challenges > challenge.html
+1. Register the app w/ Django
+   - settings.py
+   ```py
+   # Application definition
+
+   INSTALLED_APPS = [
+      'challenges',
+      'django.contrib.admin',
+      'django.contrib.auth',
+      'django.contrib.contenttypes',
+      'django.contrib.sessions',
+      'django.contrib.messages',
+      'django.contrib.staticfiles',
+   ]
+   ```
+1. Use the template in your view
+   - challenges > views.py
+   ```py
+   from django.template.loader import render_to_string
+
+   response_data = render_to_string("challenges/challenge.html")
+   return HttpResponse(response_data)
+   ```
