@@ -264,3 +264,14 @@ def monthly_challenge_by_number(request, month):
       <h2>{{ text }}</h2>
    </body>
    ```
+
+## Tags
+
+1. Example is to allow us to loop through content
+   ```html
+   <ul>
+      {% for month in months %}
+         <li><a href=""></a></li>
+      {% endfor %}
+   </ul>
+   ```
