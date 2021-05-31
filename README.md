@@ -233,3 +233,34 @@ def monthly_challenge_by_number(request, month):
    response_data = render_to_string("challenges/challenge.html")
    return HttpResponse(response_data)
    ```
+1. Best practice to repeat app name in templates folder of app
+
+## Django Template Language
+
+1. Enhance HTML files to create dynamic pages
+   - Standard HTML Syntax + Special DTL Syntax = Dynamic HTML Page
+1. Example
+   ```html
+   <body>
+      <h1>{{ month_name }}'s Challenge</h1>
+      <h2>{{ text }}</h2>
+   </body>
+   ```
+   ```py
+   challenge_text = monthly_challenges[month]
+   return render(request, "challenges/challenge.html", {
+      "text": challenge_text,
+      "month_name": month.capitalize()
+   })
+   ```
+
+## Filters
+
+1. [Official Documentation](https://docs.djangoproject.com/en/3.2/ref/templates/builtins/)
+1. Allows us to apply 'code' in our html docs
+   ```html
+   <body>
+      <h1>{{ month_name|title }}'s Challenge</h1>
+      <h2>{{ text }}</h2>
+   </body>
+   ```
