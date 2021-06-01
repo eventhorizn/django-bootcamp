@@ -267,11 +267,55 @@ def monthly_challenge_by_number(request, month):
 
 ## Tags
 
-1. Example is to allow us to loop through content
+Example is to allow us to loop through content
+
+```html
+<ul>
+   {% for month in months %}
+      <li><a href=""></a></li>
+   {% endfor %}
+</ul>
+```
+
+## Template Inheritance
+
+Allows us to define a base template that other templates can inherit from
+
+1. Project Root > templates > base.html
    ```html
-   <ul>
-      {% for month in months %}
-         <li><a href=""></a></li>
-      {% endfor %}
-   </ul>
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>{% block page_title %}My Challenges{% endblock page_title %}</title>
+   </head>
+   <body>
+      {% block content %}{% endblock content %}
+   </body>
+   </html>
    ```
+   - Notice the block tags
+1. Updating file w/ template inheritance
+   ```html
+   {% extends 'base.html' %}
+
+   {% block page_title %}All Challenges{% endblock page_title %}
+      
+   {% block content %}
+      <ul>
+         {% for month in months %}
+            <li><a href="{% url 'month-challenge' month %}">{{ month|title }}</a></li>
+         {% endfor %}
+      </ul>
+   {% endblock content %}
+   ```
+1. Update settings so you don't have to point to literal path to ```base.html```
+   ```py
+   'DIRS': [
+      BASE_DIR / "templates"
+      # BASE_DIR / "challenges" / "templates"
+   ],
+   ```
+   - This allows Django to look into the templates folder for any django template
