@@ -319,3 +319,37 @@ Allows us to define a base template that other templates can inherit from
    ],
    ```
    - This allows Django to look into the templates folder for any django template
+
+## Partial Template Snippets
+
+1. Create the partial: templates > challenges > includes > header.html
+   - Create your partials in the app you are using them in
+   ```html
+   <header>
+      <nav>
+         <a href="{% url 'index' %}">All Challenges</a>
+      </nav>
+   </header>
+
+   {{ active_page }}
+   ```
+   - active_page is a variable we can set when using this partial in other templates
+
+1. Using the partial
+   ```html
+   {% extends 'base.html' %}
+
+   {% block page_title %}All Challenges{% endblock page_title %}
+      
+   {% block content %}
+      {% include "challenges/includes/header.html" with active_page = "index" %}
+
+      <ul>
+         {% for month in months %}
+               <li><a href="{% url 'month-challenge' month %}">{{ month|title }}</a></li>
+         {% endfor %}
+      </ul>
+   {% endblock content %}
+   ```
+   - Notice the include tag
+   - the ```with active_page``` section is where we set that variable 
