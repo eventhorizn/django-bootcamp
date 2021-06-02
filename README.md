@@ -384,4 +384,17 @@ Allows us to define a base template that other templates can inherit from
       <link rel="stylesheet" href="{% static 'challenges/challenges.css' %}">
    {% endblock css_files %}
    ```
-   - load static allows us to use th
+
+### Global Static Files
+
+1. Similar to app based static files, except we are doing this for the whole project
+   - root > static > styles.css
+1. We need to update a setting in ```settings.py```
+   ```py
+   STATIC_URL = '/static/'
+   STATICFILES_DIRS = [
+      BASE_DIR / "static"
+   ]
+   ```
+   - This allows Django to look for static files in the root dir
+1. Then use this global style in our global templates
