@@ -353,3 +353,35 @@ Allows us to define a base template that other templates can inherit from
    ```
    - Notice the include tag
    - the ```with active_page``` section is where we set that variable 
+
+## Static Files (javascript, css)
+
+1. Create a ```static``` folder in your app
+   - challenges > static > challenges > challenges.css
+1. These settings are default, but confirm
+   ```py
+   INSTALLED_APPS = [
+    'challenges',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+   ]
+   ```
+   ```py
+   # Static files (CSS, JavaScript, Images)
+   # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+   STATIC_URL = '/static/'
+   ```
+1. Use the static files in a template
+   ```html
+   {% load static %}
+
+   {% block css_files %}
+      <link rel="stylesheet" href="{% static 'challenges/challenges.css' %}">
+   {% endblock css_files %}
+   ```
+   - load static allows us to use th
