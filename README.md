@@ -398,3 +398,15 @@ Allows us to define a base template that other templates can inherit from
    ```
    - This allows Django to look for static files in the root dir
 1. Then use this global style in our global templates
+
+### Build Static Urls Dynamically
+
+1. You want to build a static url where a part of the url (filename) is a stored variable
+   ```ps
+   {% static "my_path/to/" + the_file %}
+   ```
+   - This fails
+1. Instead, use the add filter
+   ```ps
+   {% static "my_path/to/"|add:the_file %}
+   ```
