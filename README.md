@@ -410,3 +410,16 @@ Allows us to define a base template that other templates can inherit from
    ```ps
    {% static "my_path/to/"|add:the_file %}
    ```
+
+# Data, Models, SQL
+
+1. Django already creates a sqlite file
+   - Which is what we will be using
+1. [sqlite docs](https://www.sqlite.org/index.html)
+1. With Django, there's a built in feature to interface w/ databases
+   - Models
+
+## Django Models
+
+1. Define data models and use objects based on those models to run common operations
+1. Django models translate instructions (written in Python) to SQL queries
