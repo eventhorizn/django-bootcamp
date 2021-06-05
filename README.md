@@ -423,3 +423,32 @@ Allows us to define a base template that other templates can inherit from
 
 1. Define data models and use objects based on those models to run common operations
 1. Django models translate instructions (written in Python) to SQL queries
+1. [Model Field Reference](https://docs.djangoproject.com/en/3.2/ref/models/fields/)
+
+```py
+from django.db import models
+
+# Create your models here.
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=50)
+    rating = models.IntegerField()
+```
+
+1. Django will auto create an id field that auto increments
+1. Django will create a ```Books``` table (pluralizes it)
+
+## Migrations
+
+1. As always, you have to hook up your project ```book_outlet``` to the ```settings.py``` file so Django is aware of it
+1. In the project folder rund
+   ```cmd
+   python manage.py makemigrations
+   ```
+1. This will build migrations from ```model.ps``` classes
+   - Nothing has been ran yet!
+1. Run the below command to run the migration
+   ```cmd
+   python manage.py migrate
+   ```
