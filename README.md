@@ -434,6 +434,9 @@ from django.db import models
 class Book(models.Model):
     title = models.CharField(max_length=50)
     rating = models.IntegerField()
+
+   def __str__(self):
+   return f"{self.title} ({self.rating})"
 ```
 
 1. Django will auto create an id field that auto increments
@@ -452,3 +455,93 @@ class Book(models.Model):
    ```cmd
    python manage.py migrate
    ```
+1. After updating a model, you'll need to have Django create a new migration and apply
+   - Same as above ```makemigrations```
+
+## Database Manipulation
+
+The below shell commands will eventually be actually coded into a view
+
+1. Interact with database through Python: Insert
+   ```cmd
+   python manage.py shell
+   ```
+   ```py
+   from book_outlet.models import Book
+   ```
+   ```py
+   harry_potter = Book(title="Harry Potter 1 - The Philosopher's Stone", rating=5)
+   ```
+   ```py
+   harry_potter.save()
+   ```
+   - Django will create an insert query
+1. Get Data
+   ```py
+   Book.objects.all()
+   ```
+   - Returns a 'QuerySet'
+1. Update Data
+   ```py
+   from book_outlet.models import Book
+   harry_potter = Book.objects.all()[0]
+
+   harry_potter.author = 'J.K. Rowling'
+   harry_potter.is_bestselling = True
+   
+   harry_potter.save()
+   ```
+   - If item already exists, it will update instead of insert
+1. Delete data
+   ```py
+   from book_outlet.models import Book
+   harry_potter = Book.objects.all()[0]
+
+   harry_potter.delete()
+   ```
+1. Create Data
+   ```py
+   from book_outlet.models import Book
+
+   Book.objects.create(title="Harry Potter 1", rating=5, author="J.K. Rowling", is_bestselling=True)
+   ```
+1. Query Data
+   ```py
+   from book_outlet.models import Book
+
+   Book.objects.get(id=3)
+   Book.objects.get(title="My Story")
+   ```
+   - Only gets 1 item, even if criteria matches multiple items
+   - Throws error if multiple are returned
+   ```py
+   Book.objects.filter(is_bestselling=True)
+   Book.objects.filter(is_bestselling=True, rating=2)
+   Book.objects.filter(rating__lt=3)
+   ```
+   - Returns QuerySet
+   - [Django Filter](https://docs.djangoproject.com/en/3.2/topics/db/queries/)
+1. Query 'or' 'and' Condition
+   ```py
+   from book_outlet.models import Book
+   from django.db.models import Q
+
+   Book.objects.filter(Q(rating__lt=3) | Q(is_bestselling=True))
+   ```
+   ```py
+   from book_outlet.models import Book
+   from django.db.models import Q
+
+   Book.objects.filter(Q(rating__lt=3) | Q(is_bestselling=True), Q(author="J.K. Rowling"))
+   ```
+   - You don't have to use the ```Q``` if you are using and, but if you don't, it has to come after an 'or' condition
+1. Bulk Operations
+   - [Delete](https://docs.djangoproject.com/en/3.1/topics/db/queries/#deleting-objects)
+   - [Update](https://docs.djangoproject.com/en/3.0/ref/models/querysets/#bulk-update)
+   - [Create](https://docs.djangoproject.com/en/3.0/ref/models/querysets/#bulk-create)
+1. blank vs null
+   - ```blank=True```: When providing a value for this model field (via a form)
+      - This field may be blank
+   - ```null=True```: When no value is received for that field
+      - NULL is stored in db
+      - char types store empty string
