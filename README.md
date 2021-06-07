@@ -545,3 +545,26 @@ The below shell commands will eventually be actually coded into a view
    - ```null=True```: When no value is received for that field
       - NULL is stored in db
       - char types store empty string
+
+## Django Admin
+
+GUI for working with data
+
+1. In the project folder ```book_store```, in the ```urls.py```
+   - You'll notice an admin url
+   ```py
+   urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', include('book_outlet.urls'))
+   ]
+   ```
+   - Coming from ```django.contrib.admin```
+1. Go to root/admin/
+   - What is the username or password?
+   - First you have to create a super user
+   ```py
+   python manage.py createsuperuser
+   ```
+   ![](images/django-admin.png)
+1. How to get the admin page to see our db?
+   - ```book_outlet\admin.py```
