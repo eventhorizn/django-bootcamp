@@ -550,6 +550,8 @@ The below shell commands will eventually be actually coded into a view
 
 GUI for working with data
 
+[Django Admin](https://docs.djangoproject.com/en/3.2/ref/contrib/admin/)
+
 1. In the project folder ```book_store```, in the ```urls.py```
    - You'll notice an admin url
    ```py
@@ -568,3 +570,14 @@ GUI for working with data
    ![](images/django-admin.png)
 1. How to get the admin page to see our db?
    - ```book_outlet\admin.py```
+   ```py
+   from django.contrib import admin
+
+   from .models import Book
+
+   # Register your models here.
+
+   admin.site.register(Book)
+   ```
+   ![](images/django-admin-data.png)
+   - Can add, edit, delete
