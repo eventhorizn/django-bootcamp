@@ -581,3 +581,6 @@ GUI for working with data
    ```
    ![](images/django-admin-data.png)
    - Can add, edit, delete
+
+## Relationships
+
