@@ -584,3 +584,143 @@ GUI for working with data
 
 ## Relationships
 
+[Documentation](https://docs.djangoproject.com/en/3.2/topics/db/models/#relationships)
+
+### Model Definitions
+
+```py
+class Country(models.Model):
+    name = models.CharField(max_length=80)
+    code = models.CharField(max_length=2)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Countries'
+
+
+class Address(models.Model):
+    street = models.CharField(max_length=80)
+    postal_code = models.CharField(max_length=5)
+    city = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.street}, {self.postal_code}, {self.city}'
+
+    class Meta:
+        verbose_name_plural = 'Address Entries'
+
+
+class Author(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    address = models.OneToOneField(
+        Address, on_delete=models.CASCADE, null=True)
+
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=50)
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)])
+    author = models.ForeignKey(
+        Author, on_delete=models.CASCADE, null=True, related_name="books")
+    is_bestselling = models.BooleanField(default=False)
+    slug = models.SlugField(default="", blank=True,
+                            null=False, db_index=True)
+    published_countries = models.ManyToManyField(Country)
+
+    def get_absolute_url(self):
+        return reverse("book-detail", args=[self.slug])
+
+    def __str__(self):
+        return f"{self.title} ({self.rating})"
+
+```
+
+1. One to Many
+   ```py
+   author = models.ForeignKey(
+        Author, on_delete=models.CASCADE, null=True, related_name="books")
+   ```
+   - ForeignKey is used for this relationship
+1. One to One
+   ```py
+   address = models.OneToOneField(
+        Address, on_delete=models.CASCADE, null=True)
+   ```
+1. Many to Many
+   ```py
+   published_countries = models.ManyToManyField(Country)
+   ```
+   - Like any many to many relationship, this will auto create a mapper table between Book and Country
+
+There are specific ways you can manage/create this data in the shell. Instead of writing it all down, it's in the documentation
+
+We will eventually be doing this in the Django app (once we have forms) anyways
+
+### Admin Definitions
+
+```py
+# Register your models here.
+
+
+class BookAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
+    list_filter = ('author', 'rating')
+    list_display = ('title', 'author')
+
+
+admin.site.register(Book, BookAdmin)
+admin.site.register(Author)
+admin.site.register(Address)
+admin.site.register(Country)
+```
+
+- Admin sits on top of the created db, so will auto generate controls based on relationship type
+- Above in the model definitions you can see
+   ```py
+   class Meta:
+      verbose_name_plural = 'Address Entries'
+   ```
+- This lets us change how things appear in admin (pural names, etc)
+   - As alwyas, docs have more info
+
+### Circular & Lazy Relations
+
+- Sometimes, you might have two models that depend on each other - i.e. you end up with a circular relationship.
+- Or you have a model that has a relation with itself.
+- Or you have a model that should have a relation with some built-in model (i.e. built into Django) or a model defined in another application.
+
+1. Two models that have a circular relationship
+   ```py
+   class Product(models.Model):
+   # ... other fields ...
+   last_buyer = models.ForeignKey('User')
+   
+   class User(models.Model):
+   # ... other fields ...
+   created_products = models.ManyToManyField('Product')
+   ```
+   - In this example, we have multiple relationships between the same two models. Hence we might need to define them in both models. 
+   - By using the model name as a string instead of a direct reference, Django is able to resolve such dependencies.
+1. Relation with the same model
+   ```py
+   class User(models.Model):
+   # ... other fields ...
+   friends = models.ManyToManyField('self') 
+   ```
+   - The special self keyword (used as a string value) tells Django that it should form a relationship with (other) instances of the same model.
+1. Relationships with other apps and their models (built-in or custom apps)
+   ```py
+   class Review(models.Model):
+   # ... other fields ...
+   product = models.ForeignKey('store.Product') # '<appname>.<modelname>'
+   ```
+   - You can reference models defined in other Django apps (no matter if created by you, via python manage.py startapp <appname> or if it's a built-in or third-party app) by using the app name and then the name of the model inside the app.
