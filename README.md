@@ -727,4 +727,4 @@ admin.site.register(Country)
 
 # Blog Data Models
 
-![](images/blog-data-models.png)
+![](images/blog-data-model.png)
