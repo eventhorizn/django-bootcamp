@@ -750,3 +750,33 @@ Cross Site Request Forgery: All about requests that look valid, but aren't
         <button>Send</button>
     </form>
    ```
+
+## Form Submission and Extracting Data
+
+```py
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+
+# Create your views here.
+
+
+def review(request):
+    if request.method == 'POST':
+        entered_username = request.POST['username']
+        print(entered_username)
+
+        return HttpResponseRedirect('/thank-you')
+
+    return render(request, "reviews/review.html")
+
+
+def thank_you(request):
+    return render(request, 'reviews/thank_you.html')
+```
+
+1. Review is our post request
+   - Get the data directly from the requests' POST variable
+   - Access by the id you gave to the input
+1. thank_you is our get
+   - We do a Redirect from the post as we don't return html from a post
+   - Instead we redirec to a get function
