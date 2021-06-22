@@ -730,3 +730,23 @@ admin.site.register(Country)
 ![](images/blog-data-model.png)
 
 # Django Forms
+
+## CSRF Protection
+
+Cross Site Request Forgery: All about requests that look valid, but aren't
+
+1. The idea is to 'rebuild' a form that looks offiical but hosted on your server
+   - Then a user uses 'your' app to send protected data
+1. You then send that data to the bank
+   - Allows you to then get data sent to you instead of bank once hack is complete
+1. The fix is to create a token so that if someone spoofs our site, it will be missing
+1. Our server will then won't accept the request
+1. With Django, it's easy to add this
+   ```html
+   <form method="POST">
+        {% csrf_token %}
+        <label for="username">Your Name</label>
+        <input id="username" name="username" type="text">
+        <button>Send</button>
+    </form>
+   ```
