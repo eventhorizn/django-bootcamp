@@ -808,3 +808,51 @@ def review(request):
 This should show you that manual validation is...code heavy
 
 It would be nice if we had built in helpers
+
+## Django Form Class
+
+### Django Form
+
+```py
+from django import forms
+
+
+class ReviewForm(forms.Form):
+    user_name = forms.CharField()
+```
+
+### View With Django Form
+
+```py
+from .forms import ReviewForm
+
+# Create your views here.
+
+
+def review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            print(form.cleaned_data)
+            return HttpResponseRedirect('/thank-you')
+
+    else:
+        form = ReviewForm()
+
+    return render(request, "reviews/review.html", {
+        'form': form
+    })
+```
+ Notice the built in validation functions
+
+### HTML With Django Form
+
+```html
+<form action="/" method="POST">
+   {% csrf_token %}
+   {{ form }}
+
+   <button>Send</button>
+</form>
+```
