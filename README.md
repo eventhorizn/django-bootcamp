@@ -780,3 +780,31 @@ def thank_you(request):
 1. thank_you is our get
    - We do a Redirect from the post as we don't return html from a post
    - Instead we redirec to a get function
+
+## Manual Form Validation
+
+This is an example of manual form validation before we see what Django Forms do for us
+
+```py
+
+def review(request):
+    if request.method == 'POST':
+        entered_username = request.POST['username']
+
+        if entered_username == '' and len(entered_username) >= 100:
+            return render(request, "reviews/review.html", {
+                'has_error': True
+            })
+
+        print(entered_username)
+
+        return HttpResponseRedirect('/thank-you')
+
+    return render(request, "reviews/review.html", {
+        'has_error': False
+    })
+```
+
+This should show you that manual validation is...code heavy
+
+It would be nice if we had built in helpers
