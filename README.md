@@ -731,6 +731,8 @@ admin.site.register(Country)
 
 # Django Forms
 
+[Official Docs](https://docs.djangoproject.com/en/3.2/topics/forms/)
+
 ## CSRF Protection
 
 Cross Site Request Forgery: All about requests that look valid, but aren't
@@ -824,7 +826,7 @@ class ReviewForm(forms.Form):
 ### View With Django Form
 
 ```py
-from .forms import ReviewForm
+from .forms import ReviewFormaAZz
 
 # Create your views here.
 
