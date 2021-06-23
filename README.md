@@ -858,3 +858,43 @@ def review(request):
    <button>Send</button>
 </form>
 ```
+
+## Customizing Django Form
+
+```py
+class ReviewForm(forms.Form):
+    user_name = forms.CharField(
+        label='Your Name', max_length=100,
+        error_messages={'required': 'Your name must not be empty',
+                        'max_length': 'Please enter a shorter name'})
+```
+
+## Customizing Rendred HTML
+
+### Original
+
+```html
+<form action="/" method="POST">
+   {% csrf_token %}
+   {{ form }}
+   <button>Send</button>
+</form>
+```
+
+### Customized
+
+```html
+<form action="/" method="POST">
+   {% csrf_token %}
+
+   <div class="form-control {% if form.user_name.errors %}errors{% endif %}">
+      {{ form.user_name.label_tag }}
+      {{ form.user_name }}
+      {{ form.user_name.errors }}
+   </div>
+
+   <button>Send</button>
+</form>
+```
+
+It's one or the other. Either the entire form, or everything broken apart
