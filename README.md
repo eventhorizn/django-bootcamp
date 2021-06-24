@@ -898,3 +898,41 @@ class ReviewForm(forms.Form):
 ```
 
 It's one or the other. Either the entire form, or everything broken apart
+
+## Model Forms
+
+Often your form class will match your model class and you'll find yourself duplicating
+
+```py
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = '__all__'
+        #exclude = ['owner_comment']
+        labels = {
+            'user_name': 'Your Name',
+            'review_text': 'Your Feedback',
+            'rating': 'Your Rating'
+        }
+        error_messages = {
+            'user_name': {
+                'required': 'Your name must not be empty!',
+                'max_length': 'Please enter a shorter name'
+            }
+        }
+```
+
+1. This is a ModelForm
+1. We map it to the ```Review``` model class
+1. We can override labels and error messages, include and exclude fields
+1. To save, on the views side...
+   ```py
+   if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/thank-you')
+   ```
