@@ -1066,3 +1066,65 @@ class SingleReviewView(TemplateView):
         return context
 ```
 
+With DetailView
+
+```py
+class SingleReviewView(DetailView):
+    template_name = 'reviews/single_review.html'
+    model = Review
+```
+
+## FormView
+
+Old Way
+
+```py
+class ReviewView(View):
+    def get(self, request):
+        form = ReviewForm()
+
+        return render(request, "reviews/review.html", {
+            'form': form
+        })
+
+    def post(self, request):
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/thank-you')
+
+        return render(request, "reviews/review.html", {
+            'form': form
+        })
+```
+
+With FormView
+
+```py
+class ReviewView(FormView):
+    form_class = ReviewForm
+    template_name = 'reviews/review.html'
+    success_url = '/thank-you'
+
+    def form_valid(self, form):
+        form.save()
+
+        return super().form_valid(form)
+```
+
+## CreateView
+
+1. Allows us to get more specific than FormView
+1. If we have a form where we submit, we save...we can use CreateView
+1. CreateView allows us to not have to use the ```ReviewForm``` in of ```forms.py``` file
+   - But you still can point to the ReviewForm
+
+```py
+class ReviewView(CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'reviews/review.html'
+    success_url = '/thank-you'
+```
