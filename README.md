@@ -1004,3 +1004,5 @@ class ThankYouView(TemplateView):
 ```
 
 Context is how you can set dynamic content in the html file
+
+Don't need a ```get``` function, the template_name takes care of that
