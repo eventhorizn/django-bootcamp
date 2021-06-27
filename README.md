@@ -1131,8 +1131,35 @@ class ReviewView(CreateView):
 
 # File Upload
 
-## How File Upload Work
+[Official Documentation](https://docs.djangoproject.com/en/3.2/topics/http/file-uploads/)
 
 ## Adding File Uploads
+
+### Naive Approach
+
+```html
+<form action="/profiles/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="image" />
+    <button>Upload!</button>
+</form>
+```
+
+```py
+def store_file(file):
+    with open('temp/image.png', 'wb+') as dest:
+        for chunk in file.chunks():
+            dest.write(chunk)
+
+
+class CreateProfileView(View):
+    def get(self, request):
+        return render(request, "profiles/create_profile.html")
+
+    def post(self, request):
+        store_file(request.FILES['image'])
+
+        return HttpResponseRedirect('/profiles')
+```
 
 ## Serving Files
