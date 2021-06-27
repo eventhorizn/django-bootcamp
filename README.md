@@ -1006,3 +1006,32 @@ class ThankYouView(TemplateView):
 Context is how you can set dynamic content in the html file
 
 Don't need a ```get``` function, the template_name takes care of that
+
+## ListView
+
+Showing a list of data is so common, Django has a pre-built class view
+
+Old way
+
+```py
+class ReviewsListView(TemplateView):
+    template_name = 'reviews/review_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reviews = Review.objects.all()
+        context['reviews'] = reviews
+
+        return context
+```
+
+With a ListView
+
+```py
+from django.views.generic import ListView
+
+class ReviewsListView(ListView):
+    template_name = 'reviews/review_list.html'
+    model = Review
+    context_object_name = 'reviews'
+```
