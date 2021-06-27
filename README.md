@@ -989,6 +989,19 @@ class ReviewView(View):
 
 # Class Views
 
+Lots of options for views
+
+1. Functional view
+1. Regular View
+1. Template View
+1. List, Detail, etc view
+
+When to use which?
+
+Mainly just personal preference, kind of feel it out and use what works best in each situation
+
+Options are never a bad thing!
+
 ## TemplateView
 
 ```views.py```
@@ -1035,3 +1048,21 @@ class ReviewsListView(ListView):
     model = Review
     context_object_name = 'reviews'
 ```
+
+## DetailView
+
+Old Way
+
+```py
+class SingleReviewView(TemplateView):
+    template_name = 'reviews/single_review.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        review_id = kwargs['id']
+        selected_review = Review.objects.get(pk=review_id)
+        context['review'] = selected_review
+
+        return context
+```
+
