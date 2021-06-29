@@ -1229,3 +1229,7 @@ class ProfilesView(ListView):
     path('list', views.ProfilesView.as_view())
    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
    ```
+
+# Sessions
+
+Temporary Persistent Data
