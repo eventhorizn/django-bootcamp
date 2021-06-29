@@ -1192,3 +1192,40 @@ class CreateProfileView(CreateView):
 ```
 
 ## Serving Files
+
+```html
+<ul>
+   {% for profile in profiles %}
+      <li>
+            <img src="{{ profile.image.url }}" alt="profile">
+      </li>
+   {% endfor %}
+</ul>
+```
+
+```py
+class ProfilesView(ListView):
+    model = UserProfile
+    template_name = 'profiles/user_profiles.html'
+    context_object_name = 'profiles'
+```
+
+1. Django does not make folders accessible by default
+   - js and css are exceptions
+1. We will construct a url that lead to our files
+   - ```settings.py```
+   ```py
+   MEDIA_ROOT = BASE_DIR / 'uploads'
+   MEDIA_URL = '/user-media/'
+   ```
+1. Create the path to our files
+   - ```urls.py``` project level
+   ```py
+   from django.conf.urls.static import static
+   from django.conf import settings
+
+   urlpatterns = [
+    path("", views.CreateProfileView.as_view()),
+    path('list', views.ProfilesView.as_view())
+   ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+   ```
