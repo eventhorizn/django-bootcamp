@@ -1162,4 +1162,8 @@ class CreateProfileView(View):
         return HttpResponseRedirect('/profiles')
 ```
 
+### Using a Form for Uploads (with a Model)
+
+
+
 ## Serving Files
