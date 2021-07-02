@@ -1232,4 +1232,9 @@ class ProfilesView(ListView):
 
 # Sessions
 
-Temporary Persistent Data
+1. Temporary Persistent Data
+1. A session is an 'ongoing connection' between a browser (client) and a server
+1. Data persists as long as the session is active
+1. Django does much of the heavy lifting for us
+
+![](images/session.png)
