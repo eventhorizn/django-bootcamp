@@ -1238,3 +1238,65 @@ class ProfilesView(ListView):
 1. Django does much of the heavy lifting for us
 
 ![](images/session.png)
+
+# Deployment
+
+## Considerations
+
+1. Choose Database
+   - SQLite might work, but might be too slow, or erased (since it's just a file)
+   - 
+1. Adjust Settings
+   - Adjust config for chosen hosting provider, disable dev-only settings
+1. Collect Static Files
+   - Static files are NOT served automatically
+1. Handle Static & Uploaded Files Serving
+1. Choose a Host + Deploy
+
+##  Django & Web Servers
+
+1. Django is not a Web Server
+   - It's simply a Python framework
+   - It knows how to work w/ incoming requests and create responses
+1. It does NOT listen for incoming requests or handle any other server tasks
+1. ```asgi.py``` and ```wsgi.py``` files are used to set up a server
+   - Why two files?
+   - Django supports two interfaces 'ASGI' and 'WSGI'
+   - We will use 'WSGI'
+1. Wherever we deploy our app to, we will also need a web server installed
+
+## Static Files & User Uploads
+
+1. Django does not automatically serve static files
+1. We can configure Django to server files (via urls.py)
+   - Ok for smaller sites, not performance-optimized
+1. Configure web server to serve static files AND Django app
+   - Same server and device, but separate processes
+   - Better for performance
+1. Use dedicated service/server for static and uploaded files
+   - Initial setup is more complex, but offers best performance
+
+## Hosting Provider
+
+1. [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04)
+   - I use DO for all my other apps, so I'll eventually deploy this app
+1. There are many other, but for this course, we are using AWS
+
+## Collecting and Serving Static files
+
+1. Add below to settings file
+   ```py
+   STATIC_ROOT = BASE_DIR / 'staticfiles'
+   ```
+1. Run the below command
+   ```cmd
+   python manage.py collectstatic
+   ```
+1. urls.py needs to be updated to
+   ```py
+   urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog.urls'))
+   ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+   ```
