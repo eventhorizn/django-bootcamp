@@ -1300,3 +1300,20 @@ class ProfilesView(ListView):
    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
    ```
+
+## Locking in Dependencies
+
+1. Create a Virtual Environment
+   - Typical of python
+   ```bash
+   python -m venv django_my_site
+   ```
+1. VSCode may ask you if you want to activate the venv, but if not
+   - [Official Docs](https://docs.python.org/3/library/venv.html#creating-virtual-environments)
+   ```cmd
+   source <venv>\Scripts\activate
+   ```
+1. Lock in your dependencies
+   ```cmd
+   pythom -m pip freeze > requirements.txt
+   ```
