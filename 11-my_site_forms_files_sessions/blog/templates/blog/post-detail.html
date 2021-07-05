@@ -38,4 +38,19 @@
         {{ post.content|linebreaks }}
     </main>
 
+    <section id="comment-form">
+        <h2>Your Coomment</h2>
+        <form action="">
+            {% for form_field in comment_form %}
+                <div class="form-control">
+                    {{ form_field.label_tag }}
+                    {{ form_field }}
+                    {{ form_field.errors }}
+                </div>
+            {% endfor %}
+
+            <button>Save Comment</button>
+        </form>
+    </section>
+
 {% endblock content %}
