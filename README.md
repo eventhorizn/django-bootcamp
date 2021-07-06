@@ -1317,3 +1317,21 @@ class ProfilesView(ListView):
    ```cmd
    pythom -m pip freeze > requirements.txt
    ```
+
+## Deploying With Elastic Beanstalk
+
+1. Generate a random secret key
+   ```cmd
+   python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+   ```
+   - We'll use this on the software settings
+1. Create an Application on EB
+1. Prepare the application
+   - Create .ebextensions folder (elastic beanstalk specific)
+   - Create django.config file
+   ```config
+   option_settings:
+     aws:elasticbeanstalk:container:python:
+       WSGIPath: my_site.wsgi:application
+   ```
+1. Create zip of project
